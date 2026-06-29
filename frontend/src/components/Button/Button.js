@@ -1,17 +1,20 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle, ActivityIndicator } from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import { useTheme } from '../../hooks/useTheme';
 
-interface ButtonProps {
-  title: string;
-  onPress: () => void;
-  style?: ViewStyle;
-  textStyle?: TextStyle;
-  loading?: boolean;
-  disabled?: boolean;
-}
-
-export const Button: React.FC<ButtonProps> = ({ title, onPress, style, textStyle, loading, disabled }) => {
+export const Button = ({
+  title,
+  onPress,
+  style,
+  textStyle,
+  loading,
+  disabled,
+}) => {
   const theme = useTheme();
 
   return (
@@ -20,7 +23,7 @@ export const Button: React.FC<ButtonProps> = ({ title, onPress, style, textStyle
         styles.button,
         { backgroundColor: theme.accent },
         (disabled || loading) && styles.disabled,
-        style
+        style,
       ]}
       onPress={onPress}
       disabled={disabled || loading}

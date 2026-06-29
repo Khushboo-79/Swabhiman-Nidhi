@@ -1,14 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-interface AuthState {
-  customerId: string | null;
-  isAuthenticated: boolean;
-  deviceId: string | null;
-  sessionId: string | null;
-  requires2FA: boolean;
-}
-
-const initialState: AuthState = {
+const initialState = {
   customerId: null,
   isAuthenticated: false,
   deviceId: null,
@@ -26,13 +18,13 @@ const authSlice = createSlice({
       state.sessionId = null;
       state.requires2FA = false;
     },
-    loginSuccess: (state, action: PayloadAction<{ customerId: string; sessionId: string; requires2FA?: boolean }>) => {
+    loginSuccess: (state, action) => {
       state.customerId = action.payload.customerId;
       state.sessionId = action.payload.sessionId;
       state.isAuthenticated = true;
       state.requires2FA = action.payload.requires2FA || false;
     },
-    setDeviceId: (state, action: PayloadAction<string>) => {
+    setDeviceId: (state, action) => {
       state.deviceId = action.payload;
     },
   },

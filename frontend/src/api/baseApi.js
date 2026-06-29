@@ -7,7 +7,9 @@ const rawBaseQuery = fetchBaseQuery({
   baseUrl: Config.API_BASE_URL || 'http://localhost:8080/api/v1',
   prepareHeaders: async (headers) => {
     try {
-      const creds = await Keychain.getGenericPassword({ service: 'access_token' });
+      const creds = await Keychain.getGenericPassword({
+        service: 'access_token',
+      });
       if (creds) {
         headers.set('Authorization', `Bearer ${creds.password}`);
       }
@@ -20,26 +22,36 @@ const rawBaseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithReauth: typeof rawBaseQuery = async (args, api, extraOptions) => {
+const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await rawBaseQuery(args, api, extraOptions);
-  
+
   if (result.error && result.error.status === 401) {
     // Try to get a new token
     try {
-      const refreshCreds = await Keychain.getGenericPassword({ service: 'refresh_token' });
+      const refreshCreds = await Keychain.getGenericPassword({
+        service: 'refresh_token',
+      });
       if (refreshCreds) {
         const refreshResult = await rawBaseQuery(
-          { url: '/auth/refresh', method: 'POST', body: { refresh_token: refreshCreds.password } },
+          {
+            url: '/auth/refresh',
+            method: 'POST',
+            body: { refresh_token: refreshCreds.password },
+          },
           api,
-          extraOptions
+          extraOptions,
         );
-        
+
         if (refreshResult.data) {
-          const { access_token, refresh_token } = refreshResult.data as any;
+          const { access_token, refresh_token } = refreshResult.data;
           // Store the new tokens
-          await Keychain.setGenericPassword('token', access_token, { service: 'access_token' });
+          await Keychain.setGenericPassword('token', access_token, {
+            service: 'access_token',
+          });
           if (refresh_token) {
-            await Keychain.setGenericPassword('token', refresh_token, { service: 'refresh_token' });
+            await Keychain.setGenericPassword('token', refresh_token, {
+              service: 'refresh_token',
+            });
           }
           // Retry the initial query
           result = await rawBaseQuery(args, api, extraOptions);
@@ -55,13 +67,21 @@ const baseQueryWithReauth: typeof rawBaseQuery = async (args, api, extraOptions)
       api.dispatch({ type: 'auth/logout' });
     }
   }
-  
+
   return result;
 };
 
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Account', 'FD', 'Loan', 'Beneficiary', 'Notification', 'Nominee', 'Dispute'],
+  tagTypes: [
+    'Account',
+    'FD',
+    'Loan',
+    'Beneficiary',
+    'Notification',
+    'Nominee',
+    'Dispute',
+  ],
   endpoints: () => ({}),
 });

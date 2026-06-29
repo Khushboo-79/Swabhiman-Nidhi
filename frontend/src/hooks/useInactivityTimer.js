@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { AppState, AppStateStatus } from 'react-native';
+import { AppState } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/auth/authSlice';
 
@@ -7,7 +7,7 @@ const INACTIVITY_LIMIT_MS = 5 * 60 * 1000; // 5 minutes
 
 export const useInactivityTimer = () => {
   const dispatch = useDispatch();
-  const timerId = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timerId = useRef(null);
   const appState = useRef(AppState.currentState);
 
   const resetTimer = () => {
@@ -22,8 +22,11 @@ export const useInactivityTimer = () => {
   useEffect(() => {
     resetTimer(); // Start timer initially
 
-    const subscription = AppState.addEventListener('change', (nextAppState: AppStateStatus) => {
-      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
         // App has come to the foreground!
         resetTimer();
       }

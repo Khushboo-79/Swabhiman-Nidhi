@@ -2,26 +2,33 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store';
-import { View, Text, ActivityIndicator } from 'react-native';
+
+import { View, Text } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 
 const Stack = createNativeStackNavigator();
 
-import { SplashScreen } from '../features/splash/SplashScreen';
+import { SplashScreen } from '../screens/SplashScreen/SplashScreen';
 import { AuthStack } from './AuthStack';
 
 const MainTabScreen = () => {
   const theme = useTheme();
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: theme.background }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.background,
+      }}
+    >
       <Text style={{ color: theme.text }}>Main App Placeholder</Text>
     </View>
   );
 };
 
 export const RootNavigator = () => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -30,7 +37,7 @@ export const RootNavigator = () => {
       // Add logic here to check for existing tokens and auto-login
       setTimeout(() => {
         setIsReady(true);
-      }, 1000);
+      }, 5000);
     };
     initApp();
   }, []);

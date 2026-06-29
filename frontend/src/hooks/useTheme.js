@@ -6,8 +6,8 @@ const storage = createMMKV({ id: 'app-storage' });
 export const lightTheme = {
   background: '#FFFFFF',
   surface: '#F5F7FA',
-  primary: '#06102B',        // Swabhiman dark navy
-  accent: '#EDBF47',         // Swabhiman gold
+  primary: '#06102B', // Swabhiman dark navy
+  accent: '#EDBF47', // Swabhiman gold
   text: '#1A1A2E',
   textSecondary: '#6B7280',
   success: '#10B981',
@@ -18,10 +18,10 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  background: '#06102B',     // From screenshot
+  background: '#06102B', // From screenshot
   surface: '#111D3B',
-  primary: '#EDBF47',        // Swabhiman gold
-  accent: '#EDBF47',         // Gold
+  primary: '#EDBF47', // Swabhiman gold
+  accent: '#EDBF47', // Gold
   text: '#FFFFFF',
   textSecondary: '#94A3B8',
   success: '#34D399',
@@ -33,11 +33,11 @@ export const darkTheme = {
 
 export function useTheme() {
   const systemScheme = useColorScheme();
-  const stored = storage.getString('theme_override');   // 'light' | 'dark' | null
+  const stored = storage.getString('theme_override'); // 'light' | 'dark' | null
 
   // Defaulting to dark theme as per the screenshot design for this specific app
   // If the user wants a light theme they can toggle it later.
-  const isDark = stored ? stored === 'dark' : (systemScheme === 'dark' || true); // Enforcing dark theme based on design
+  const isDark = stored ? stored === 'dark' : systemScheme === 'dark' || true; // Enforcing dark theme based on design
 
   return isDark ? darkTheme : lightTheme;
 }

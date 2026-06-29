@@ -1,12 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-interface OnboardingState {
-  currentStep: number;
-  refId: string | null;
-  isCompleted: boolean;
-}
-
-const initialState: OnboardingState = {
+const initialState = {
   currentStep: 0,
   refId: null,
   isCompleted: false,
@@ -19,7 +13,7 @@ const onboardingSlice = createSlice({
     nextStep: (state) => {
       state.currentStep += 1;
     },
-    setRefId: (state, action: PayloadAction<string>) => {
+    setRefId: (state, action) => {
       state.refId = action.payload;
     },
     completeOnboarding: (state) => {
@@ -28,5 +22,6 @@ const onboardingSlice = createSlice({
   },
 });
 
-export const { nextStep, setRefId, completeOnboarding } = onboardingSlice.actions;
+export const { nextStep, setRefId, completeOnboarding } =
+  onboardingSlice.actions;
 export default onboardingSlice.reducer;
