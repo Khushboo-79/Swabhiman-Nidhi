@@ -23,11 +23,14 @@ export const scaleV = (size) => (SCREEN_HEIGHT / DESIGN_HEIGHT) * size;
  * Scales the font based on the device pixel ratio to maintain readability
  */
 export const scaleF = (size) => {
-  const newSize = size * (SCREEN_WIDTH / DESIGN_WIDTH);
+  // Increased base scale modifier by 15% to make all text globally larger as requested
+  const baseScaleModifier = 1.15; 
+  const newSize = size * (SCREEN_WIDTH / DESIGN_WIDTH) * baseScaleModifier;
   if (Platform.OS === 'ios') {
     return Math.round(PixelRatio.roundToNearestPixel(newSize));
   } else {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 1;
+    // Removed the previous -1 subtraction so Android text doesn't shrink unnecessarily
+    return Math.round(PixelRatio.roundToNearestPixel(newSize));
   }
 };
 
@@ -43,9 +46,11 @@ export const AppTheme = {
     success: '#34C759',
     border: '#E5E5E5',
     white: '#FFFFFF',
+    premiumGradientStart: '#FDE863',
+    premiumGradientEnd: '#BB8E20',
   },
   typography: {
-    h1: scaleF(40),
+    h1: scaleF(42),
     h2: scaleF(30),
     h3: scaleF(24),
     body: scaleF(18),

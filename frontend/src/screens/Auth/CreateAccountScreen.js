@@ -149,8 +149,8 @@ export const CreateAccountScreen = ({ navigation }) => {
           </View>
 
           {/* Login Button */}
-          <TouchableOpacity 
-            style={styles.button} 
+          <TouchableOpacity
+            style={styles.button}
             activeOpacity={0.8}
             onPress={() => navigation.navigate('MobileVerify')}
           >
@@ -158,14 +158,14 @@ export const CreateAccountScreen = ({ navigation }) => {
               <Svg height="100%" width="100%">
                 <Defs>
                   <LinearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <Stop offset="0%" stopColor="#FDE863" />
-                    <Stop offset="100%" stopColor="#BB8E20" />
+                    <Stop offset="0%" stopColor={AppTheme.colors.premiumGradientStart} />
+                    <Stop offset="100%" stopColor={AppTheme.colors.premiumGradientEnd} />
                   </LinearGradient>
                 </Defs>
                 <Rect width="100%" height="100%" fill="url(#btnGrad)" rx={scaleH(12)} />
               </Svg>
             </View>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Signup</Text>
           </TouchableOpacity>
 
           <Text style={styles.orText}>Or</Text>
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: '#FFFFFF',
-    fontSize: scaleF(18),
+    fontSize: scaleF(20),
     fontWeight: 'bold',
     textAlign: 'center',
   },

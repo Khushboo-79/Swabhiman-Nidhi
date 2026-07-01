@@ -1,17 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
-import Svg, { Polyline, Path, Defs, LinearGradient, Stop, Rect, Circle as SvgCircle } from 'react-native-svg';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native';
+import Svg, { Polyline, Defs, LinearGradient, Stop, Rect } from 'react-native-svg';
 import { AppTheme, scaleV, scaleH, scaleF } from '../../constants/AppTheme';
 
 export const BiometricScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      
+
       {/* Top Header Section */}
       <View style={styles.topSection}>
         {/* Back Button */}
-        <TouchableOpacity 
-          style={styles.backButton} 
+        <TouchableOpacity
+          style={styles.backButton}
           onPress={() => navigation.goBack()}
           hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
         >
@@ -32,6 +32,7 @@ export const BiometricScreen = ({ navigation }) => {
       {/* Center Image/Icon */}
       <View style={styles.centerSection}>
         <View style={styles.iconCircleContainer}>
+          {/* Golden Gradient Background */}
           <View style={StyleSheet.absoluteFill}>
             <Svg height="100%" width="100%">
               <Defs>
@@ -40,51 +41,46 @@ export const BiometricScreen = ({ navigation }) => {
                   <Stop offset="100%" stopColor="#BB8E20" />
                 </LinearGradient>
               </Defs>
-              <SvgCircle cx="50%" cy="50%" r="50%" fill="url(#circleGrad)" />
+              <Rect width="100%" height="100%" fill="url(#circleGrad)" rx={scaleH(80)} />
             </Svg>
           </View>
-          
-          <Svg width={scaleH(80)} height={scaleH(80)} viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <Path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10" />
-            <Path d="M5 12c0-3.87 3.13-7 7-7s7 3.13 7 7" />
-            <Path d="M8.29 12c0-2.05 1.66-3.71 3.71-3.71s3.71 1.66 3.71 3.71" />
-            <Path d="M12 12v.01" />
-            <Path d="M22 16v-4" />
-            <Path d="M2 16v-4" />
-            <Path d="M12 22a9.96 9.96 0 0 1-7.07-2.93" />
-            <Path d="M19.07 19.07A9.96 9.96 0 0 1 12 22" />
-            <Path d="M12 15a3 3 0 0 1-3-3" />
-            <Path d="M15 12a3 3 0 0 1-3 3" />
-          </Svg>
+
+          {/* Fingerprint Image */}
+          <Image
+            source={require('../../Images/bgImages/fingerprint.webp')}
+            style={{ width: scaleH(80), height: scaleH(80), resizeMode: 'contain' }}
+          />
         </View>
       </View>
 
       {/* Bottom Actions */}
       <View style={styles.bottomSection}>
-        <TouchableOpacity 
-          style={styles.enableButton} 
-          activeOpacity={0.8}
-          onPress={() => {
-            // Setup Biometrics
-            navigation.navigate('Login'); // or next flow
-          }}
-        >
+        <View style={[styles.enableButton, { overflow: 'hidden', backgroundColor: 'transparent', paddingVertical: 0 }]}>
           <View style={StyleSheet.absoluteFill}>
             <Svg height="100%" width="100%">
               <Defs>
-                <LinearGradient id="btnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <Stop offset="0%" stopColor="#FDE863" />
-                  <Stop offset="100%" stopColor="#BB8E20" />
+                <LinearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <Stop offset="0%" stopColor={AppTheme.colors.premiumGradientStart} />
+                  <Stop offset="100%" stopColor={AppTheme.colors.premiumGradientEnd} />
                 </LinearGradient>
               </Defs>
               <Rect width="100%" height="100%" fill="url(#btnGrad)" rx={scaleH(12)} />
             </Svg>
           </View>
-          <Text style={styles.enableButtonText}>Enable Fingerprint</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}
+            activeOpacity={0.8}
+            onPress={() => {
+              // Setup Biometrics
+              navigation.navigate('Login'); // or next flow
+            }}
+          >
+            <Text style={[styles.enableButtonText, { color: '#000000' }]}>Enable Fingerprint</Text>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity 
-          style={styles.notNowButton} 
+        <TouchableOpacity
+          style={styles.notNowButton}
           activeOpacity={0.7}
           onPress={() => {
             // Skip Biometrics
@@ -152,7 +148,7 @@ const styles = StyleSheet.create({
     marginBottom: scaleV(20),
   },
   enableButtonText: {
-    color: '#FFFFFF',
+    color: '#000000ff',
     fontSize: scaleF(18),
     fontWeight: '500',
   },

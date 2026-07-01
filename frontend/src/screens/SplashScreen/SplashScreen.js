@@ -6,8 +6,8 @@ export const SplashScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Image 
-          source={require('../../Images/Logo/logo.png')} 
+        <Image
+          source={require('../../Images/Logo/logo.jpeg')}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -20,12 +20,12 @@ export const SplashScreen = () => {
 
         <View style={styles.divider} />
 
-        <ActivityIndicator 
-          size="large" 
-          color={AppTheme.colors.accent} 
-          style={styles.loader} 
+        <ActivityIndicator
+          size="large"
+          color={AppTheme.colors.accent}
+          style={styles.loader}
         />
-        
+
         <Text style={styles.loadingText}>Loading...</Text>
       </View>
     </View>

@@ -19,7 +19,7 @@ export const OnboardingScreen = ({ navigation }) => {
       {/* Logo */}
       <View style={styles.logoContainer}>
         <Image
-          source={require('../../Images/Logo/logo.png')}
+          source={require('../../Images/Logo/logo.jpeg')}
           style={styles.logo}
           resizeMode="contain"
         />

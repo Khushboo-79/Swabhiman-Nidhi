@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
-import Svg, { Polyline, Path, Circle } from 'react-native-svg';
+import Svg, { Polyline, Path, Circle, Defs, LinearGradient, Stop, Rect } from 'react-native-svg';
 import { AppTheme, scaleV, scaleH, scaleF } from '../../constants/AppTheme';
 import { PinPad } from '../../components/PinPad/PinPad';
 
@@ -21,27 +21,40 @@ export const SetMPINScreen = ({ navigation }) => {
   };
 
   const bottomContinueBtn = (
-    <TouchableOpacity 
-      style={styles.continueButton} 
-      activeOpacity={0.8}
-      onPress={() => {
-        if (pin.length === 4) {
-           navigation.navigate('Biometric');
-        }
-      }}
-    >
-      <Text style={styles.continueButtonText}>Continue</Text>
-    </TouchableOpacity>
+    <View style={[styles.continueButton, { overflow: 'hidden', backgroundColor: 'transparent', paddingVertical: 0 }]}>
+      <View style={StyleSheet.absoluteFill}>
+        <Svg height="100%" width="100%">
+          <Defs>
+            <LinearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <Stop offset="0%" stopColor={AppTheme.colors.premiumGradientStart} />
+              <Stop offset="100%" stopColor={AppTheme.colors.premiumGradientEnd} />
+            </LinearGradient>
+          </Defs>
+          <Rect width="100%" height="100%" fill="url(#btnGrad)" rx={scaleH(12)} />
+        </Svg>
+      </View>
+      <TouchableOpacity
+        style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}
+        activeOpacity={0.8}
+        onPress={() => {
+          if (pin.length === 4) {
+            navigation.navigate('Biometric');
+          }
+        }}
+      >
+        <Text style={[styles.continueButtonText, { color: '#000000' }]}>Continue</Text>
+      </TouchableOpacity>
+    </View>
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      
+
       {/* Top Header Section */}
       <View style={styles.topSection}>
         {/* Back Button */}
-        <TouchableOpacity 
-          style={styles.backButton} 
+        <TouchableOpacity
+          style={styles.backButton}
           onPress={() => navigation.goBack()}
           hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
         >
@@ -65,8 +78,8 @@ export const SetMPINScreen = ({ navigation }) => {
           {[0, 1, 2, 3].map((index) => {
             const isFilled = index < pin.length;
             return (
-              <View 
-                key={index} 
+              <View
+                key={index}
                 style={[
                   styles.pinDot,
                   isFilled ? styles.pinDotFilled : styles.pinDotEmpty
@@ -82,8 +95,8 @@ export const SetMPINScreen = ({ navigation }) => {
             );
           })}
 
-          <TouchableOpacity 
-            style={styles.eyeIcon} 
+          <TouchableOpacity
+            style={styles.eyeIcon}
             onPress={() => setShowPin(!showPin)}
             activeOpacity={0.7}
           >
@@ -107,10 +120,10 @@ export const SetMPINScreen = ({ navigation }) => {
 
       {/* Custom PinPad with Continue Button */}
       <View style={styles.pinPadContainer}>
-        <PinPad 
+        <PinPad
           showDone={false}
-          onPressKey={handlePressKey} 
-          onDelete={handleDelete} 
+          onPressKey={handlePressKey}
+          onDelete={handleDelete}
           bottomContent={bottomContinueBtn}
         />
       </View>
@@ -150,13 +163,14 @@ const styles = StyleSheet.create({
   pinDotsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: scaleH(20),
+    justifyContent: 'center',
+    paddingHorizontal: scaleH(50),
   },
   pinDot: {
     width: scaleH(16),
     height: scaleH(16),
     borderRadius: scaleH(8),
-    marginRight: scaleH(25),
+    marginHorizontal: scaleH(12),
     justifyContent: 'center',
     alignItems: 'center',
   },
